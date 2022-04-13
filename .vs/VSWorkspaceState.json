@@ -3,9 +3,8 @@
     "",
     "\\public",
     "\\src",
-    "\\src\\mock",
     "\\src\\view"
   ],
-  "SelectedNode": "\\Readme.md",
+  "SelectedNode": "\\src\\main.js",
   "PreviewInSolutionExplorer": false
 }
