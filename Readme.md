@@ -1,6 +1,7 @@
 # Проект «Большое путешествие»
 
 * Студент: [Станислав Булычев](https://up.htmlacademy.ru/js2-urfu/1/user/2044887).
+
 * Наставник: [Юлия Корецкая](https://htmlacademy.ru/profile/id11886).
 
 ---
