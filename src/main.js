@@ -2,14 +2,14 @@ import { render, RenderPosition } from './render.js';
 import TripTabsView from './view/trip-tabs-view.js';
 import TripFiltersView from './view/trip-filters-view.js';
 import TripSortView from './view/trip-sort-view.js';
-import AddEventItemView from './view/add-event-item-view.js';
-import EventItemEditView from './view/edit-event-item-view';
-import TripEventItemView from './view/trip-event-item-view.js';
 import EventsListView from './view/events-list-view.js';
+import EventAddView from './view/event-add-view.js';
+import EventEditView from './view/event-edit-view';
+import TripEventItemView from './view/trip-event-item-view.js';
 import { generateTripEvent } from './mock/trip-event';
 import NoTripEventsView from './view/no-trip-events-view';
 
-const TRIP_EVENTS_COUNT = 18;
+const TRIP_EVENTS_COUNT = 10;
 
 const tripEvents = Array.from({ length: TRIP_EVENTS_COUNT }, generateTripEvent);
 
@@ -26,33 +26,37 @@ if (tripEvents.length === 0) {
 } else {
   render(tripEventsElement, tripEventsListElement.element, RenderPosition.BEFOREEND);
   render(tripEventsElement, new TripSortView().element, RenderPosition.AFTERBEGIN);
-  render(tripEventsListElement.element, new AddEventItemView(tripEvents[0]).element, RenderPosition.BEFOREEND);
+  render(tripEventsListElement.element, new EventAddView(tripEvents[0]).element, RenderPosition.BEFOREEND);
 }
 
 const renderEvent = (eventListElement, event) => {
   const eventItemComponent = new TripEventItemView(event);
-  const eventEditComponent = new EventItemEditView(event);
+  const eventEditComponent = new EventEditView(event);
 
-  const replaceFormToItem = () => {
-    eventListElement.replaceChild(eventItemComponent.element, eventEditComponent.element);
-  };
   const replaceItemToForm = () => {
     eventListElement.replaceChild(eventEditComponent.element, eventItemComponent.element);
   };
+  const replaceFormToItem = () => {
+    eventListElement.replaceChild(eventItemComponent.element, eventEditComponent.element);
+  };
+
   const onEscKeyDown = (evt) => {
-    if (evt.key === 'Esc') {
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
       replaceFormToItem();
       document.removeEventListener('keydown', onEscKeyDown);
     }
   };
+
   eventItemComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
     replaceItemToForm();
     document.addEventListener('keydown', onEscKeyDown);
   });
+
   eventEditComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
     replaceFormToItem();
   });
+
   eventEditComponent.element.querySelector('form').addEventListener('submit', (evt) => {
     evt.preventDefault();
     replaceFormToItem();

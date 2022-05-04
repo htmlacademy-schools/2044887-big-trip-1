@@ -1,14 +1,14 @@
-import { createElement } from '../render';
 import dayjs from 'dayjs';
+import { createElement } from '../render.js';
 
 const createTripEventsItemTemplate = (tripEvent) => {
   const { eventType, location, price, startDate, endDate, duration, offers, isFavorite } = tripEvent;
   const startDay = dayjs(startDate).format('MMM D');
-  const beginDate = dayjs(startDate).format('YYYY-MM-D');
+  const beginDate = dayjs(startDate).format('YYYY-MM-DD');
   const startTime = dayjs(startDate).format('HH:mm');
-  const startDatetime = dayjs(startDate).format('YYYY-MM-DTHH:mm');
+  const startDatetime = dayjs(startDate).format('YYYY-MM-DDTHH:mm');
   const endTime = dayjs(endDate).format('HH:mm');
-  const endDatetime = dayjs(endDate).format('YYYY-MM-DTHH:mm');
+  const endDatetime = dayjs(endDate).format('YYYY-MM-DDTHH:mm');
   const isFavoriteClass = isFavorite ? ' event__favorite-btn--active' : '';
 
   const createOfferMarkup = (offer) => {
@@ -22,25 +22,24 @@ const createTripEventsItemTemplate = (tripEvent) => {
                   </li>`;
     }
   };
-
   const getDuration = (interval) => {
-    const timeDiff = [];
+    const timeDifference = [];
     if (interval.days !== 0) {
-      timeDiff[0] = `${String(interval.days).padStart(2, '0')}D`;
+      timeDifference[0] = `${String(interval.days).padStart(2, '0')}D`;
     }
     if (interval.hours !== 0) {
-      timeDiff[1] = `${String(interval.hours).padStart(2, '0')}H`;
+      timeDifference[1] = `${String(interval.hours).padStart(2, '0')}H`;
     }
     if (interval.minutes !== 0) {
-      timeDiff[2] = `${String(interval.minutes).padStart(2, '0')}M`;
+      timeDifference[2] = `${String(interval.minutes).padStart(2, '0')}M`;
     }
-    return timeDiff.join(' ');
+    return timeDifference.join(' ');
   };
+
+  const OffersMarkup = offers.map(createOfferMarkup).join('');
   const durationText = getDuration(duration);
-  const offersMarkup = offers.map(createOfferMarkup).join('');
 
   return `<li class="trip-events__item">
-              <li class="trip-events__item">
               <div class="event">
                 <time class="event__date" datetime="${beginDate}">${startDay}</time>
                 <div class="event__type">
@@ -59,7 +58,7 @@ const createTripEventsItemTemplate = (tripEvent) => {
                   &euro;&nbsp;<span class="event__price-value">${price}</span>
                 </p>
                 <h4 class="visually-hidden">Offers:</h4>
-                <ul class="event__selected-offers">${offersMarkup}</ul>
+                <ul class="event__selected-offers">${OffersMarkup}</ul>
                 <button class="event__favorite-btn${isFavoriteClass}" type="button">
                   <span class="visually-hidden">Add to favorite</span>
                   <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
@@ -72,12 +71,13 @@ const createTripEventsItemTemplate = (tripEvent) => {
               </div>
             </li>`;
 };
+
 export default class TripEventItemView {
   #element = null;
-  #event = null;
+  #tripEvent = null;
 
   constructor(event) {
-    this.#event = event;
+    this.#tripEvent = event;
   }
 
   get element() {
@@ -89,7 +89,7 @@ export default class TripEventItemView {
   }
 
   get template() {
-    return createTripEventsItemTemplate(this.#event);
+    return createTripEventsItemTemplate(this.#tripEvent);
   }
 
   removeElement() {
