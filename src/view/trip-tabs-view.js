@@ -6,6 +6,7 @@ const createTripTabsTemplate = () => (
                 <a class="trip-tabs__btn" href="#">Stats</a>
               </nav>`
 );
+
 export default class TripTabsView {
   #element = null;
 

@@ -3,10 +3,10 @@ import { locations } from '../mock/locations';
 import { eventTypes } from '../mock/event-types';
 import { createElement } from '../render';
 
-const createEventItemEditTemplate = (tripEvent) => {
+const createEventEditTemplate = (tripEvent) => {
   const { eventType, price, location, startDate, endDate, offers, description } = tripEvent;
-  const startDatetime = dayjs(startDate).format('D/MM/YY HH:mm ');
-  const endDatetime = dayjs(endDate).format('D/MM/YY HH:mm');
+  const startDatetime = dayjs(startDate).format('DD/MM/YY HH:mm ');
+  const endDatetime = dayjs(endDate).format('DD/MM/YY HH:mm');
 
   const createOfferMarkup = (offer) => {
     const isChecked = offer.isChosen ? ' checked=""' : '';
@@ -25,15 +25,14 @@ const createEventItemEditTemplate = (tripEvent) => {
                       </div>
     `;
   };
-
   const createOffersListMarkup = (editedOffers) => {
     if (editedOffers.length !== 0) {
       return `<section class="event__section  event__section--offers">
                     <h3 class="event__section-title  event__section-title--offers">Offers</h3>${editedOffers}</section>`;
     }
+
     return '';
   };
-
   const createLocationOption = (city) => (`<option value="${city}"></option>`);
   const createEventTypesMarkup = (types = eventTypes(), chosenEventType) => {
     const createType = (currentType) => {
@@ -44,6 +43,7 @@ const createEventItemEditTemplate = (tripEvent) => {
                           <label class="event__type-label  event__type-label--${currentType}" for="event-type-${currentType}-1">${label}</label>
                         </div>`;
     };
+
     return types.map(createType).join('');
   };
 
@@ -107,12 +107,12 @@ const createEventItemEditTemplate = (tripEvent) => {
             </li>`;
 };
 
-export default class EventItemEditView {
+export default class EventEditView {
   #element = null;
-  #event = null;
+  #tripEvent = null;
 
   constructor(event) {
-    this.#event = event;
+    this.#tripEvent = event;
   }
 
   get element() {
@@ -124,7 +124,7 @@ export default class EventItemEditView {
   }
 
   get template() {
-    return createEventItemEditTemplate(this.#event);
+    return createEventEditTemplate(this.#tripEvent);
   }
 
   removeElement() {

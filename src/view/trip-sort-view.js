@@ -24,6 +24,7 @@ const createTripSortTemplate = () => (
             </div>
           </form>`
 );
+
 export default class TripSortView {
   #element = null;
 
