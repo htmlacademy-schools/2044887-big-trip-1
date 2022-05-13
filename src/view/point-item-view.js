@@ -6,13 +6,10 @@ const createPointsItemTemplate = (tripPoint) => {
 
   const startDay = dayjs(startDate).format('MMM D');
   const beginDate = dayjs(startDate).format('YYYY-MM-DD');
-
   const startTime = dayjs(startDate).format('HH:mm');
   const startDatetime = dayjs(startDate).format('YYYY-MM-DDTHH:mm');
-
   const endTime = dayjs(endDate).format('HH:mm');
   const endDatetime = dayjs(endDate).format('YYYY-MM-DDTHH:mm');
-
   const isFavoriteClass = isFavorite ? ' event__favorite-btn--active' : '';
 
   const createOfferMarkup = (offer) => {
@@ -40,7 +37,7 @@ const createPointsItemTemplate = (tripPoint) => {
     return timeDifference.join(' ');
   };
 
-  const OffersMarkup = offers.map(createOfferMarkup).join('');
+  const offersMarkup = offers.map(createOfferMarkup).join('');
   const durationText = getDuration(duration);
 
   return `<li class="trip-events__item">
@@ -62,7 +59,7 @@ const createPointsItemTemplate = (tripPoint) => {
                   &euro;&nbsp;<span class="event__price-value">${price}</span>
                 </p>
                 <h4 class="visually-hidden">Offers:</h4>
-                <ul class="event__selected-offers">${OffersMarkup}</ul>
+                <ul class="event__selected-offers">${offersMarkup}</ul>
                 <button class="event__favorite-btn${isFavoriteClass}" type="button">
                   <span class="visually-hidden">Add to favorite</span>
                   <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
