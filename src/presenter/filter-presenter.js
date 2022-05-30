@@ -1,5 +1,6 @@
 import TripFiltersView from '../view/trip-filters-view';
 import { render, RenderPosition, replace, remove } from '../utils/render.js';
+//import {filter} from '../utils/filter.js';
 import { UpdateType } from '../utils/const';
 
 export default class FilterPresenter {
